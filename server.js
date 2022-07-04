@@ -1,14 +1,14 @@
 const log = require('book');
 const Koa = require('koa');
 const tldjs = require('tldjs');
-const Debug = require('debug');
 const http = require('http');
 const { hri } = require('human-readable-ids');
 const Router = require('koa-router');
 
 const ClientManager = require('./lib/ClientManager');
+const morgan = require('koa-morgan');
 
-const debug = Debug('localtunnel:server');
+const debug = console.debug;
 
 module.exports = function(opt) {
     opt = opt || {};
@@ -50,6 +50,8 @@ module.exports = function(opt) {
         };
     });
 
+
+    app.use(morgan('common'));
     app.use(router.routes());
     app.use(router.allowedMethods());
 
@@ -126,11 +128,15 @@ module.exports = function(opt) {
             return;
         }
 
-        const clientId = GetClientIdFromHostname(hostname);
+        console.log(hostname);
+
+        const clientId = GetClientIdFromHostname(hostname); console.log({ clientId })
         if (!clientId) {
             appCallback(req, res);
             return;
         }
+
+        console.log('tunnel-id:', clientId);
 
         const client = manager.getClient(clientId);
         if (!client) {

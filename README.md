@@ -1,5 +1,16 @@
 # localtunnel-server
 
+I cloned this project from http://github.com/defunctzombie/localtunnel-server. I had failed to run the server using the instructions, it was giving the error below:
+
+
+So I cloned the project and did a few changes including:
+* Changing the ES6 modules to CommonJS
+* Changing arguments into environmental variables
+* removed ```localenv``` dependency, replacing it with ```dotenv```.
+
+Some changes where not strictly necessary, I was just trying to make it as straightforward to run as possible cd (at least for me).
+
+
 [![Build Status](https://travis-ci.org/localtunnel/server.svg?branch=master)](https://travis-ci.org/localtunnel/server)
 
 localtunnel exposes your localhost to the world for easy testing and sharing! No need to mess with DNS or deploy just to have others test out your changes.
@@ -19,17 +30,17 @@ The above are important as the client will ask the server for a subdomain under 
 
 ```shell
 # pick a place where the files will live
-git clone git://github.com/defunctzombie/localtunnel-server.git
+git clone https://github.com/XavierTM/localtunnel-server.git
 cd localtunnel-server
 npm install
 
 # server set to run on port 1234
-bin/server --port 1234
+PORT=1234 DOMAIN=example.com nmp start
 ```
 
 The localtunnel server is now running and waiting for client requests on port 1234. You will most likely want to set up a reverse proxy to listen on port 80 (or start localtunnel on port 80 directly).
 
-**NOTE** By default, localtunnel will use subdomains for clients, if you plan to host your localtunnel server itself on a subdomain you will need to use the _--domain_ option and specify the domain name behind which you are hosting localtunnel. (i.e. my-localtunnel-server.example.com)
+**NOTE** By default, localtunnel will use subdomains for clients, if you plan to host your localtunnel server itself on a subdomain you will need to use the _DOMAIN_ variable and specify the domain name behind which you are hosting localtunnel. (i.e. my-localtunnel-server.example.com)
 
 #### use your server
 
